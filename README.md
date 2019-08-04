@@ -1,7 +1,8 @@
 ## Static Docker  
 
 ![alt text](./image.png "Static Website Deployment")
-[Stranger Things Wiki Page](https://strangerthings.fandom.com/wiki/Stranger_Things_Wiki)
+
+Content reference from [Stranger Things Wiki Page](https://strangerthings.fandom.com/wiki/Stranger_Things_Wiki)
 
 ### Let's Build It!
 * Download the source folder
