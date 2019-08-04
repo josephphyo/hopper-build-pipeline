@@ -6,10 +6,10 @@ Content reference from [Stranger Things Wiki Page](https://strangerthings.fandom
 
 #### Let's Build It!
 * Download the source folder
-    > #wget -c https://github.com/phyominhtun1990/static-docker/archive/master.zip -o static-docker.zip
+    > #wget https://github.com/phyominhtun1990/static-docker/archive/master.zip -O static-docker.zip
 
 * Build image from Dockerfile 
-    > #unzip static-docker.zip && cd static-docker
+    > #unzip static-docker.zip
     
     > #docker build -t image_name . 
 
