@@ -7,6 +7,7 @@
 
 * Build image from Dockerfile 
     > #unzip static-docker.zip && cd static-docker
+    
     > #docker build -t image_name . 
 
 * Run static web content with docker run command 
