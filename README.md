@@ -4,7 +4,7 @@
 
 Content reference from [Stranger Things Wiki Page](https://strangerthings.fandom.com/wiki/Stranger_Things_Wiki)
 
-### Let's Build It!
+#### Let's Build It!
 * Download the source folder
     > #wget -c https://github.com/phyominhtun1990/static-docker/archive/master.zip -o static-docker.zip
 
