@@ -7,7 +7,7 @@ phases:
       - REPOSITORY_URI=$REPOSITORY_URI
       - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
       - $(aws ecr get-login --no-include-email --region ap-southeast-1)
 
   build:
@@ -16,12 +16,14 @@ phases:
       - cat imageDetail.json
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
       
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo "Image Push Completed..."
       - echo "Image Build Completed..."
