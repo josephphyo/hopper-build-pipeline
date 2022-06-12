@@ -7,7 +7,7 @@ phases:
       - REPOSITORY_URI=$REPOSITORY_URI
       - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - IMAGE_TAG=$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)
       - $(aws ecr get-login --no-include-email --region ap-southeast-1)
 
   build:
