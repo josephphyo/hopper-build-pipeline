@@ -21,7 +21,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     
     - name: Add SHORT_SHA for commit SHA
-      run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+      run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`"
 
     - name: Docker Build and push
       uses: docker/build-push-action@v2
