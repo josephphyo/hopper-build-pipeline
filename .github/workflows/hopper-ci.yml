@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 env:
   IMAGE_NAME: hopper-argocd
-  SHORT_SHA: `echo ${GITHUB_SHA} | cut -c1-8`
+  SHORT_SHA: echo ${GITHUB_SHA} | cut -c1-8
 
 jobs:
   create-and-push-image:
