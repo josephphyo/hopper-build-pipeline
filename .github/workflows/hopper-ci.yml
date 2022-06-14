@@ -5,6 +5,7 @@ on:
     branches: [ master ]
 env:
   IMAGE_NAME: hopper-argocd
+  SHORT_SHA: `echo ${GITHUB_SHA} | cut -c1-8`
 
 jobs:
   create-and-push-image:
@@ -19,9 +20,6 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
-    - name: Add SHORT_SHA for commit SHA
-      run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`"
 
     - name: Docker Build and push
       uses: docker/build-push-action@v2
