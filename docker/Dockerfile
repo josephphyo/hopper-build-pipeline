@@ -1,5 +1,5 @@
 FROM ubuntu:18.04 
-MAINTAINER phyominhtun1990@gmail.com 
+LABEL MAINTAINER=phyominhtun1990@gmail.com 
 
 RUN apt-get update 
 RUN apt-get -y install apache2 
