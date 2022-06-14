@@ -1,4 +1,4 @@
-# file name: Hopper-CI-Workflow.yml
+# file name: hopper-ci.yml
 name: Hopper-CI-Workflow
 on:
   push:
