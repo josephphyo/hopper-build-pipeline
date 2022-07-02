@@ -1,8 +1,10 @@
-## Static Docker  
+## Hopper Build Pipeline
+Reference : [Stranger Things Wiki Page](https://strangerthings.fandom.com/wiki/Stranger_Things_Wiki)
 
 ![alt text](./image.png "Static Website Deployment")
 
-Content reference from [Stranger Things Wiki Page](https://strangerthings.fandom.com/wiki/Stranger_Things_Wiki)
+![alt text](./eddie.jpg "RIP Eddie Munson")
+ 
 
 #### Let's Build It!
 * Download the source folder
