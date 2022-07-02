@@ -3,7 +3,7 @@ Reference : [Stranger Things Wiki Page](https://strangerthings.fandom.com/wiki/S
 
 ![alt text](./image.png "Static Website Deployment")
 
-![alt text](./eddie.jpg "RIP Eddie Munson")
+![alt text](./eddie.png "RIP Eddie Munson!!!")
  
 
 #### Let's Build It!
