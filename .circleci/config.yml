@@ -19,21 +19,19 @@ jobs:
         name: Build and push Docker image to DockerHub
         command: |
           # Set environment variables
-          export IMAGE_NAME=hopperbuild-circleci-image
-          export DOCKER_REPO=hopper-circleci-argocd
           export TAG=cptmarvel  # You can use a different tag if desired
 
           # Build the Docker image
-          docker build -t $IMAGE_NAME:$TAG .
+          docker build -t phyominhtun/hopper-circleci-argocd:$TAG .
 
           # Authenticate with your Docker registry (e.g., Docker Hub)
           echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
           # Tag the image with the repository and tag
-          docker tag $IMAGE_NAME:$TAG $DOCKER_REPO/$IMAGE_NAME:$TAG
+          # docker tag hopperbuild-circleci-image:$TAG $DOCKER_REPO/$IMAGE_NAME:$TAG
 
           # Push the Docker image to the registry
-          docker push phyominhtun/$DOCKER_REPO/$IMAGE_NAME:$TAG
+          docker push phyominhtun/hopper-circleci-argocd:$TAG
 
 workflows:
   version: 2
