@@ -34,3 +34,13 @@ jobs:
 
           # Push the Docker image to the registry
           docker push $DOCKER_REPO/$IMAGE_NAME:$TAG
+
+workflows:
+  version: 2
+  build-and-push:
+    jobs:
+    - build-and-push:
+        filters:
+          branches:
+            only:
+            - master
