@@ -19,7 +19,7 @@ jobs:
         name: Build and push Docker image to DockerHub
         command: |
           # Set environment variables
-          export IMAGETAG=cptmarvel  # You can use a different tag if desired
+          export IMAGETAG=cptmarvel-$CIRCLE_BUILD_NUM  # You can use a different tag if desired
 
           # Build the Docker image
           docker build -t phyominhtun/hopper-circleci-argocd:$IMAGETAG$CIRCLE_BUILD_NUM .
@@ -28,7 +28,28 @@ jobs:
           echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
           # Push the Docker image to the registry
-          docker push phyominhtun/hopper-circleci-argocd:$IMAGETAG$CIRCLE_BUILD_NUM
+          docker push phyominhtun/hopper-circleci-argocd:$IMAGETAG
+
+  Update_kube_menifest:
+    docker:
+      - image: cimg/base:2023.06
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Updating Kubernetes Menifest file from ArgoCD & Kubernetes Manifest Repository
+          command: |
+            TAG=cptmarvel-$CIRCLE_BUILD_NUM
+            ((TAG--))
+            git clone https://github.com/josephphyo/argocd-app-configs.git
+            git config --global user.email "phyominhtun1990@gmail.com"
+            git config --global user.name "josephphyo"
+            cd hopper
+            sed -i "s/build-.*/build-$TAG/g" hopper-v1/hopper-deploy-v1.yaml
+            git add .
+            git commit -m "new build with imgTag build-$TAG"
+            git config credential.helper 'cache --timeout=120'
+            git push -q https://$GITHUB_PERSONAL_TOKEN@github.com/josephphyo/argocd-app-configs.git main 
 
 workflows:
   version: 2
@@ -39,3 +60,6 @@ workflows:
           branches:
             only:
             - master
+    - Update_kube_manifest:
+        requires:
+          - build-and-push
