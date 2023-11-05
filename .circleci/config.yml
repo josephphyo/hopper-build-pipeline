@@ -19,7 +19,7 @@ jobs:
         name: Build and push Docker image to DockerHub
         command: |
           # Set environment variables
-          export IMAGE_NAME=hopper-circleci-image
+          export IMAGE_NAME=hopperbuild-circleci-image
           export DOCKER_REPO=phyominhtun/hopper-circleci-argocd
           export TAG=cptmarvel  # You can use a different tag if desired
 
