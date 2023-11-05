@@ -20,7 +20,7 @@ jobs:
         command: |
           # Set environment variables
           export IMAGE_NAME=hopperbuild-circleci-image
-          export DOCKER_REPO=phyominhtun/hopper-circleci-argocd
+          export DOCKER_REPO=hopper-circleci-argocd
           export TAG=cptmarvel  # You can use a different tag if desired
 
           # Build the Docker image
