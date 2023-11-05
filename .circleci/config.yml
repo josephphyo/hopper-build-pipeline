@@ -33,7 +33,7 @@ jobs:
           docker tag $IMAGE_NAME:$TAG $DOCKER_REPO/$IMAGE_NAME:$TAG
 
           # Push the Docker image to the registry
-          docker push $DOCKER_REPO/$IMAGE_NAME:$TAG
+          docker push phyominhtun/$DOCKER_REPO/$IMAGE_NAME:$TAG
 
 workflows:
   version: 2
