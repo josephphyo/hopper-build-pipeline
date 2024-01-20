@@ -1,2 +1,4 @@
 steps:
-    command: "cat RADEME.md"
+  - label: ":pipeline: Pipeline upload"
+    command: buildkite-agent pipeline upload
+
