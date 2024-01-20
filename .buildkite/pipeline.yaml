@@ -1,4 +1,3 @@
 steps:
-  - label: ":pipeline: Pipeline upload"
-    command: buildkite-agent pipeline upload
-
+  - label: ":🐳: Docker Build"
+    command: "docker build -t latest ."
