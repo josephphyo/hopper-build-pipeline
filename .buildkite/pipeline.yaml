@@ -1,3 +1,15 @@
 steps:
-  - label: ":🐳: Docker Build"
-    command: "docker build -t latest ."
+- input: "Release details"
+  fields:
+  - select: "Stream"
+    key: "release-stream"
+    hint: "Which release stream does this belong in? :fork:"
+    default: "beta"
+    options:
+    - label: "Beta"
+      value: "beta"
+    - label: "Stable"
+      value: "stable"
+
+- label: ":🐳: Docker Build"
+  command: "docker build -t latest ."
