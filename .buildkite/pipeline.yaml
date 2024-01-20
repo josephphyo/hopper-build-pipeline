@@ -12,4 +12,4 @@ steps:
       value: "stable"
 
 - label: ":🐳: Docker Build"
-  command: "docker build -t latest ."
+  command: "DOCKER_BUILDKIT=1 docker build -t latest ."
