@@ -1,0 +1,2 @@
+steps:
+    command: "cat RADEME.md"
