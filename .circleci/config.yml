@@ -1,44 +1,39 @@
 version: 2.1
-
-executors:
-  docker-executor:
-    docker:
-    - image: circleci/python:3.8 # Use an image that has Docker installed
-
-jobs:
-  build-and-push:
-    executor: docker-executor
-    steps:
-    - checkout # Checkout your source code
-
-    - setup_remote_docker: # Set up Docker
-        version: 20.10.7
-        docker_layer_caching: true
-
-    - run:
-        name: Build and push Docker image to DockerHub
-        command: |
-          # Set environment variables
-          export IMAGETAG=cptmarvel-$CIRCLE_BUILD_NUM  # You can use a different tag if desired
-
-          # Build the Docker image
-          docker build -t phyominhtun/hopper-circleci-argocd:$IMAGETAG .
-
-          # Authenticate with your Docker registry (e.g., Docker Hub)
-          echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-
-          # Push the Docker image to the registry
-          docker push phyominhtun/hopper-circleci-argocd:$IMAGETAG
-
-  Update_kube_manifest:
-    docker:
-    - image: cimg/base:2023.06
+commands:
+  setup:
     steps:
     - checkout
-    - setup_remote_docker
     - run:
-        name: Updating Kubernetes Menifest file from ArgoCD & Kubernetes Manifest Repository
-        command: "TAG=cptmarvel-$CIRCLE_BUILD_NUM\n((TAG--))\ngit clone https://github.com/josephphyo/argocd-app-configs.git\ngit config --global user.email \"phyominhtun1990@gmail.com\"\ngit config --global user.name \"josephphyo\"\ncd argocd-app-configs\nsed -i \"s/build-.*/build-$TAG/g\" hopper/hopper-v1/hopper-deploy-v1.yaml\ngit add .\ngit commit -m \"new build with imgTag build-$TAG\"\ngit config credential.helper 'cache --timeout=120'\ngit push -q https://$GITHUB_PERSONAL_TOKEN@github.com/josephphyo/argocd-app-configs.git main \n#magic___^_^___line\n"
+        name: Setup buildx and qemu
+        command: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
+          sudo apt-get install -y binfmt-support
+    - run:
+        name: Check versions
+        command: "qemu-aarch64-static --version\nupdate-binfmts --version \n"
+    - run:
+        name: Create builder
+        command: |
+          export DOCKER_CLI_EXPERIMENTAL=enabled
+          docker buildx create --name arm-builder
+          docker buildx use arm-builder
+          docker buildx inspect --bootstrap
+jobs:
+  build-and-push:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+    - setup
+    - run:
+        name: Login to Docker Hub & Create ImageTag
+        command: |
+          export IMAGETAG=cptmarvel-$CIRCLE_BUILD_NUM
+          echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+    - run:
+        name: Build multiarch docker image and push
+        command: |
+          DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --platform linux/arm64,linux/amd64 --push -t phyominhtun/hopper-circleci-argocd:$IMAGETAG .
 
 workflows:
   version: 2
@@ -48,7 +43,4 @@ workflows:
         filters:
           branches:
             only:
-            - master
-    - Update_kube_manifest:
-        requires:
-        - build-and-push
+            - multi-arch
