@@ -32,7 +32,7 @@ jobs:
     - run:
         name: Build multiarch docker image and push
         command: |
-          DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --platform linux/arm64,linux/amd64 --push -t phyominhtun/hopper-circleci-argocd .
+          DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --platform linux/arm64,linux/amd64 --push -t phyominhtun/hopper-circleci-argocd:cptmarvel-$CIRCLE_BUILD_NUM .
 
 workflows:
   version: 2
