@@ -35,6 +35,15 @@ jobs:
           export IMAGETAG=cptmarvel-$CIRCLE_BUILD_NUM
           DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --platform linux/arm64,linux/amd64 --push -t phyominhtun/hopper-circleci-argocd:$IMAGETAG .
 
+  update_manifest:
+    docker:
+    - image: cimg/base:2023.06
+    steps:
+    - checkout
+    - setup_remote_docker
+    - run:
+        name: Updating Manifest file
+        command: "TAG=cptmarvel-$CIRCLE_BUILD_NUM\n((TAG--))\ngit clone https://github.com/josephphyo/argocd-app-configs.git\ngit config --global user.email \"phyominhtun1990@gmail.com\"\ngit config --global user.name \"josephphyo\"\npwd\ncd manifest\npwd\necho $TAG\nsed -i \"s/build-.*/build-$TAG/g\" hopper/hopper-v1/hopper-deploy-v1.yaml\ncat hopper/hopper-v1/hopper-deploy-v1.yaml\ngit add .\ngit commit -m \"new build with imgTag build-$TAG\"\ngit config credential.helper 'cache --timeout=120'\ngit push -q https://$GITHUB_PERSONAL_TOKEN@github.com/josephphyo/argocd-app-configs.git main \n#magic___^_^___line\n"
 workflows:
   version: 2
   hopper-build-flow:
@@ -44,3 +53,6 @@ workflows:
           branches:
             only:
             - multi-arch
+    - update_manifest:
+        requires:
+        - build-and-push
