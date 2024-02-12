@@ -30,11 +30,9 @@ jobs:
         command: |
           echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
     - run:
-        name: Create ImageTag
-        command: "export IMAGETAG=cptmarvel-$CIRCLE_BUILD_NUM  # You can use a different tag if desired   \n"
-    - run:
         name: Build multiarch docker image and push
         command: |
+          export IMAGETAG=cptmarvel-$CIRCLE_BUILD_NUM
           DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --platform linux/arm64,linux/amd64 --push -t phyominhtun/hopper-circleci-argocd:$IMAGETAG .
 
 workflows:
